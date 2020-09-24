@@ -9,6 +9,8 @@ class GroupedCheckbox<T> extends StatefulWidget {
   /// Every element must match an item from itemList.
   final List<T> value;
 
+  final bool readOnly;
+
   /// Specifies which boxes should be disabled.
   /// If this is non-null, no boxes will be disabled.
   /// The strings passed to this must match the labels.
@@ -185,6 +187,7 @@ class GroupedCheckbox<T> extends StatefulWidget {
     @required this.orientation,
     @required this.onChanged,
     this.value,
+    this.readOnly,
     this.disabled,
     this.activeColor,
     this.checkColor,
@@ -280,8 +283,10 @@ class _GroupedCheckboxState<T> extends State<GroupedCheckbox<T>> {
     );
     var label = GestureDetector(
       child: widget.options[index],
-      onTap: (widget.disabled != null &&
-              widget.disabled.contains(widget.options.elementAt(index).value))
+      onTap: widget.readOnly == true ||
+              (widget.disabled != null &&
+                  widget.disabled
+                      .contains(widget.options.elementAt(index).value))
           ? null
           : () {
               !selectedListItems.contains(widget.options[index].value)
